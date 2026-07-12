@@ -157,4 +157,25 @@ You can run **real nodes and simulated nodes at the same time**.
 - **LLM:** Ollama (phi3:mini) with a deterministic rule-based fallback
 - **Frontend:** vanilla HTML/CSS/JS with custom canvas charts — no CDN, fully offline
 
+---
+
+## Testing
+
+```bat
+cd node
+pip install pytest
+pytest tests/ -v
+```
+
+CI (`.github/workflows/ci.yml`) runs this plus a byte-compile check on every
+push to `main`.
+
+## More docs
+
+- [CONFIGURATION.md](CONFIGURATION.md) — every environment variable and CLI flag
+- [CHANGELOG.md](CHANGELOG.md) — notable fixes and why they were needed
+- [LICENSE](LICENSE) — MIT
+
+---
+
 MIT licensed. Built for the Snapdragon Multiverse Hackathon, Bangalore.
