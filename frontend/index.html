@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Yantra Rakshak &middot; Predictive Maintenance Command Centre</title>
+  <link rel="stylesheet" href="/static/css/styles.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- ============ SIDEBAR ============ -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">YR</div>
+        <div class="brand-text">
+          <h1>Yantra Rakshak</h1>
+          <span>Predictive Maintenance</span>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <button class="nav-item active" data-view="overview">
+          <span class="nav-ico">▦</span> Overview
+        </button>
+        <button class="nav-item" data-view="machines">
+          <span class="nav-ico">⚙</span> Machines
+        </button>
+        <button class="nav-item" data-view="alerts">
+          <span class="nav-ico">◈</span> Alerts &amp; Advisory
+          <span class="nav-badge" id="navAlertBadge" hidden>0</span>
+        </button>
+        <button class="nav-item" data-view="hardware">
+          <span class="nav-ico">⌱</span> Hardware Setup
+        </button>
+        <button class="nav-item" data-view="system">
+          <span class="nav-ico">⛁</span> System &amp; Architecture
+        </button>
+      </nav>
+
+      <div class="sidebar-foot">
+        <div class="conn-line">
+          <span class="dot" id="wsDot"></span>
+          <span id="wsText">Connecting…</span>
+        </div>
+        <div class="conn-line">
+          <span class="dot" id="llmDot"></span>
+          <span id="llmText">LLM: checking…</span>
+        </div>
+        <div class="edge-note">100% on-device &middot; offline capable</div>
+      </div>
+    </aside>
+
+    <!-- ============ MAIN ============ -->
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <h2 id="viewTitle">Fleet Overview</h2>
+          <p id="viewSub">Real-time machine health across the shop floor</p>
+        </div>
+        <div class="topbar-right">
+          <div class="clock" id="clock">--:--:--</div>
+          <div class="topbar-tag">Snapdragon&reg; Edge AI</div>
+        </div>
+      </header>
+
+      <!-- KPI STRIP -->
+      <section class="kpis">
+        <div class="kpi">
+          <span class="kpi-label">Machines</span>
+          <span class="kpi-val" id="kpiMachines">0</span>
+        </div>
+        <div class="kpi ok">
+          <span class="kpi-label">Online</span>
+          <span class="kpi-val" id="kpiOnline">0</span>
+        </div>
+        <div class="kpi warn">
+          <span class="kpi-label">Warnings</span>
+          <span class="kpi-val" id="kpiWarn">0</span>
+        </div>
+        <div class="kpi crit">
+          <span class="kpi-label">Critical</span>
+          <span class="kpi-val" id="kpiCrit">0</span>
+        </div>
+        <div class="kpi">
+          <span class="kpi-label">Events Processed</span>
+          <span class="kpi-val" id="kpiEvents">0</span>
+        </div>
+      </section>
+
+      <!-- ===== VIEW: OVERVIEW ===== -->
+      <section class="view" id="view-overview">
+        <div class="grid-cards" id="machineGrid"></div>
+      </section>
+
+      <!-- ===== VIEW: MACHINES ===== -->
+      <section class="view" id="view-machines" hidden>
+        <div class="machines-layout">
+          <div class="machine-list" id="machineList"></div>
+          <div class="machine-detail" id="machineDetail">
+            <div class="empty">Select a machine to inspect its live signature.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== VIEW: ALERTS ===== -->
+      <section class="view" id="view-alerts" hidden>
+        <div class="alerts-wrap" id="alertsWrap">
+          <div class="empty">No alerts yet. Waiting for node telemetry…</div>
+        </div>
+      </section>
+
+      <!-- ===== VIEW: HARDWARE ===== -->
+      <section class="view" id="view-hardware" hidden>
+        <div class="hw-layout">
+          <div class="panel">
+            <h3>Node Connection Topology</h3>
+            <div class="topology" id="topology"></div>
+          </div>
+
+          <div class="panel">
+            <h3>Sensor Wiring &middot; MPU-6050 → Arduino UNO Q</h3>
+            <div class="wiring">
+              <table class="wire-table">
+                <thead>
+                  <tr><th>MPU-6050 Pin</th><th></th><th>UNO Q Pin</th><th>Signal</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>VCC</td><td>→</td><td>3V3</td><td>Power</td></tr>
+                  <tr><td>GND</td><td>→</td><td>GND</td><td>Ground</td></tr>
+                  <tr><td>SCL</td><td>→</td><td>A5 / SCL</td><td>I²C Clock</td></tr>
+                  <tr><td>SDA</td><td>→</td><td>A4 / SDA</td><td>I²C Data</td></tr>
+                  <tr><td>INT</td><td>→</td><td>D2</td><td>Data-ready IRQ</td></tr>
+                </tbody>
+              </table>
+              <div class="board-svg" id="boardSvg"></div>
+            </div>
+          </div>
+
+          <div class="panel span-2">
+            <h3>Deployment Steps</h3>
+            <ol class="steps">
+              <li><b>Mount</b> the MPU-6050 node on the machine casing near the bearing housing (nylon clamp, no drilling).</li>
+              <li><b>Wire</b> the sensor to the UNO Q per the I²C table. Power via USB-C (&lt; 500 mW draw).</li>
+              <li><b>Flash</b> firmware: <code>arduino-cli upload yantra_firmware.ino</code>, set <code>MACHINE_ID</code> in <code>config.h</code>.</li>
+              <li><b>Calibrate</b>: hold BOOT 3 s → 30 s healthy baseline auto-captured to flash.</li>
+              <li><b>Connect</b> the node to the same Wi-Fi/LAN as this laptop. It auto-publishes to the cloud.</li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== VIEW: SYSTEM ===== -->
+      <section class="view" id="view-system" hidden>
+        <div class="sys-layout">
+          <div class="panel span-2">
+            <h3>End-to-End Data Flow</h3>
+            <div class="flow" id="flow"></div>
+          </div>
+          <div class="panel">
+            <h3>Inference Engine</h3>
+            <ul class="kv">
+              <li><span>Model</span><b>INT8 Conv Autoencoder</b></li>
+              <li><span>Runtime</span><b>TFLite Micro + CMSIS-NN</b></li>
+              <li><span>Target</span><b>STM32U585 · Cortex-M33</b></li>
+              <li><span>Latency</span><b>&lt; 15 ms / window</b></li>
+              <li><span>Footprint</span><b>48 KB FLASH</b></li>
+            </ul>
+          </div>
+          <div class="panel">
+            <h3>Cloud (This Laptop)</h3>
+            <ul class="kv">
+              <li><span>Ingest</span><b>FastAPI · WebSocket</b></li>
+              <li><span>Store</span><b>SQLite (local)</b></li>
+              <li><span>LLM</span><b id="sysLlm">checking…</b></li>
+              <li><span>Model</span><b id="sysLlmModel">—</b></li>
+              <li><span>Internet</span><b>Not required</b></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="/static/js/charts.js"></script>
+  <script src="/static/js/app.js"></script>
+</body>
+</html>

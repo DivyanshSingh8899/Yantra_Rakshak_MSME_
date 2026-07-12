@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# Database (regenerated at runtime)
+*.db
+backend/yantra.db
+
+# Node / frontend build
+node_modules/
+dist/
+
+# Arduino build artifacts
+arduino/**/build/
+*.hex
+*.elf
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.log
