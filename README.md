@@ -1,5 +1,8 @@
 # Yantra Rakshak — TinyML Predictive Maintenance for MSME Machines
 
+[![CI](https://github.com/DivyanshSingh8899/Yantra_Rakshak_MSME_/actions/workflows/ci.yml/badge.svg)](https://github.com/DivyanshSingh8899/Yantra_Rakshak_MSME_/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 > Sense at the Edge. Understand at the Centre. Act in Time.
 
 A two-tier, **fully offline** predictive-maintenance system for factory machines
