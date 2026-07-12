@@ -181,9 +181,11 @@ push to `main`.
 
 ## More docs
 
+- [ARCHITECTURE.md](ARCHITECTURE.md) — module boundaries and design decisions
 - [CONFIGURATION.md](CONFIGURATION.md) — every environment variable and CLI flag
 - [CHANGELOG.md](CHANGELOG.md) — notable fixes and why they were needed
 - [TEST_CASES.md](TEST_CASES.md) — functional and non-functional test matrix
+- [SECURITY.md](SECURITY.md) — offline-by-design posture and known gaps
 - [LICENSE](LICENSE) — MIT
 
 ---
