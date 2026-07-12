@@ -2,6 +2,18 @@
 
 ## Unreleased
 
+### Added (documentation & tooling)
+- `TEST_CASES.md` — functional and non-functional test matrix, statuses
+  grounded in what was actually exercised rather than assumed.
+- `ARCHITECTURE.md` — module boundaries, and the reasoning behind the
+  sync-rules/async-LLM split and the HTTP-over-MQTT decision.
+- `SECURITY.md` — the offline-by-design posture and known gaps (no API
+  auth, no TLS) for anyone deploying beyond a demo.
+- `scripts/smoke_test.py` — one-shot pre-demo health check (dashboard,
+  `/api/health`, at least one online node, `/api/alerts`, static assets).
+- GitHub issue/PR templates and `CODEOWNERS`.
+- CI and license badges on the README.
+
 ### Fixed
 - Node → cloud requests used `http://localhost:8000` by default. On Windows,
   `localhost` can resolve to IPv6 `::1` first and stall before falling back
