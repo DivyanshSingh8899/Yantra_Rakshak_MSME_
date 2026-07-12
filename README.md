@@ -64,6 +64,12 @@ an alert with an AI-written root cause, recommended action and urgency.
 > If port 8000 is busy, run `run_cloud.bat 8010` and
 > `run_nodes.bat http://127.0.0.1:8010`.
 
+**Before a live demo**, run the smoke test to confirm everything is actually
+up rather than finding out in front of judges:
+```bat
+python scripts/smoke_test.py
+```
+
 ### Manual start (no batch files)
 ```bat
 cd backend
