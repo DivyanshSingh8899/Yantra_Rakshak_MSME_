@@ -174,6 +174,7 @@ push to `main`.
 
 - [CONFIGURATION.md](CONFIGURATION.md) — every environment variable and CLI flag
 - [CHANGELOG.md](CHANGELOG.md) — notable fixes and why they were needed
+- [TEST_CASES.md](TEST_CASES.md) — functional and non-functional test matrix
 - [LICENSE](LICENSE) — MIT
 
 ---
