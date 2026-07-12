@@ -23,3 +23,6 @@ arduino/**/build/
 .DS_Store
 Thumbs.db
 *.log
+
+# Test artifacts
+.pytest_cache/
