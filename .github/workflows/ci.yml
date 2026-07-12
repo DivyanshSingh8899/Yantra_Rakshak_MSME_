@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install backend dependencies
+        run: pip install -r backend/requirements.txt
+
+      - name: Install node dependencies
+        run: pip install -r node/requirements.txt
+
+      - name: Install pytest
+        run: pip install pytest
+
+      - name: Byte-compile backend and node sources
+        run: |
+          python -m py_compile backend/*.py node/*.py
+
+      - name: Run anomaly scoring tests
+        working-directory: node
+        run: pytest tests/ -v
