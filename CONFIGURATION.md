@@ -10,6 +10,7 @@ config file or restart beyond starting the cloud service.
 | `YANTRA_LLM_MODEL` | `phi3:mini` | Ollama model name to use when `YANTRA_LLM=on`. |
 | `YANTRA_OLLAMA_URL` | `http://127.0.0.1:11434` | Base URL of the local Ollama server. Use `127.0.0.1`, not `localhost` - see the networking note in the README. |
 | `YANTRA_LLM_TIMEOUT` | `6.0` | Seconds to wait for an Ollama reply before falling back to the rule-based advisory. Raise this on NPU-accelerated (QNN) hardware where the model is genuinely fast. |
+| `YANTRA_OFFLINE_AFTER_S` | `15` | Seconds without an event before a node is marked offline on the dashboard. Default assumes the ~2s publish interval used by the simulator and firmware. |
 
 ## Node / simulator flags
 

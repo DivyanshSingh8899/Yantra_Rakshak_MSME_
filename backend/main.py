@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import asyncio
 import json
+import os
 import time
 from contextlib import asynccontextmanager
 from datetime import datetime, timezone
@@ -27,7 +28,10 @@ import llm
 from models import HealthEvent
 
 FRONTEND_DIR = Path(__file__).parent.parent / "frontend"
-OFFLINE_AFTER_S = 15  # a node is "offline" if not heard from within this window
+# A node is "offline" if not heard from within this window. Default assumes
+# the ~2s publish interval used by both the simulator and the firmware;
+# raise via YANTRA_OFFLINE_AFTER_S for a slower or lossier deployment.
+OFFLINE_AFTER_S = float(os.environ.get("YANTRA_OFFLINE_AFTER_S", "15"))
 
 
 # --------------------------------------------------------------- live state
